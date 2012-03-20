@@ -1,0 +1,4 @@
+.rvmrc
+pkg/*
+doc/*
+.yardoc/*

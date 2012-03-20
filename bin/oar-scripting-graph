@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# Author:: Pascal Morillon (<pascal.morillon@irisa.fr>)
+# Date:: Wed Feb 29 15:14:47 +0100 2012
+#
+
+$: << File.join(File.dirname(__FILE__), "..", "lib")
+
+require 'rubygems'
+require 'oar/scripting/application/graph.rb'
+
+OAR::Scripting::Application::Graph.new.run
+
