@@ -36,11 +36,11 @@ module OAR
       pre_step = Script.steps.select { |a| a[:name] == name }
       unless pre_step.empty?
         if step[:overwrite]
-          Script.logger.debug "[step_overwrites]#{pre_step.first.inspect} by #{step.inspect}"
+          Script.logger.info "[step_overwrites] replace #{pre_step.first.inspect} by #{step.inspect}"
           Script.steps.delete pre_step.first
           Script.steps << step
         else
-          Script.logger.debug "[step_already_defined]#{step.inspect}"
+          Script.logger.info "[step_already_defined] skip #{step.inspect}"
         end
       else
         Script.steps << step
