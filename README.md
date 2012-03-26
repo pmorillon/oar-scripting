@@ -277,6 +277,23 @@ This epilogue gerenerate the log above.
       sh %{/usr/sbin/oarnodesetting -n -s Absent -p available_upto=0 --sql "resource_id IN (select assigned_resources.resource_id from jobs,assigned_resources,resources where assigned_resource_index = 'CURRENT' AND jobs.state = 'Running' AND jobs.job_id = #{job[:id]} and moldable_job_id = jobs.assigned_moldable_job AND (resources.resource_id = assigned_resources.resource_id AND resources.type='default'))"}
     end
 
+## File _/etc/oar/epilogue.d/storage.rb_
+
+    # MANAGED BY PUPPET
+    # Module  : kadeployg5k
+    # File    : puppet:///modules/storage5k/oar/epilogue_storage.rb
+    #
+    
+    step :storage, :order => 80 do
+      if oarstat["initial_request"].match "chunks"
+        Script.logger.info "Storage resources requested"
+        sh %{/usr/bin/storage5k -a job-remove -u #{job[:user]} -j #{job[:id]}}
+        sh %{/usr/bin/storage5k -a umount -j #{job[:id]}}
+      else
+        Script.logger.info "No storage resources requested"
+      end
+    end
+
 ## overwrite example and _oarstat_ usage
 
 ### _/etc/oar/epilogue.d/test.rb_
