@@ -51,6 +51,10 @@ module OAR
       Script.job
     end # def:: job
 
+    def oarstat
+      Script.oarstat
+    end # def:: oarstat
+
   end # module:: Scripting
 end # module:: OAR
 

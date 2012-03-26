@@ -57,6 +57,10 @@ class OAR::Scripting::Script
     @@steps
   end # def:: self.steps
 
+  def self.oarstat
+    @@oarstat ||= JSON.parse(%x[oarstat -f -j @@job[:id] -J])[@@job[:id]]
+  end # def:: self.oarstat
+
   def self.execute
     @@steps.sort! { |a,b| a[:order] <=> b[:order] }
     @@steps.each do |step|
