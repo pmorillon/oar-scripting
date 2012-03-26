@@ -37,6 +37,8 @@ helper :
 
 ## Job informations
 
+### job method (prologue/epilogue args)
+
 A method __job__ return a __Hash__ with job informations
 (prologue/epilogue arguments parsed at the initialization of the __Script__
 class) :
@@ -45,6 +47,12 @@ class) :
     job[:user]        # user, owner of the job
     job[:nodesfile]   # file containing list of resources
 
+
+### oarstat method
+
+Full description of a job. Executes oarstat command to get informations
+about job, only one time per script and only if
+necessary. This method return a Hash.
 
 ## Steps
 
@@ -57,7 +65,7 @@ A step is a ruby block, using the __step__ method and defined by :
 
         options = { :order => 50, :overwrite => false, :continue => true }
 
-### Options description
+### Options
 
     :order
 
@@ -90,7 +98,7 @@ A system call with logging is made with method __sh__ and defined by :
 
         options : { :return => false, :stderr => true }
 
-### Options descriptions
+### Options
 
     :return
 
@@ -268,4 +276,37 @@ This epilogue gerenerate the log above.
       # Mark nodes as Absent as they are rebooting
       sh %{/usr/sbin/oarnodesetting -n -s Absent -p available_upto=0 --sql "resource_id IN (select assigned_resources.resource_id from jobs,assigned_resources,resources where assigned_resource_index = 'CURRENT' AND jobs.state = 'Running' AND jobs.job_id = #{job[:id]} and moldable_job_id = jobs.assigned_moldable_job AND (resources.resource_id = assigned_resources.resource_id AND resources.type='default'))"}
     end
+
+## overwrite example and _oarstat_ usage
+
+### _/etc/oar/epilogue.d/test.rb_
+
+    step :kadeploy, :order => 40, :overwrite => true do
+      sh %{/usr/sbin/karights3 -d -u #{job[:user]} -p /dev/sda3 -f #{job[:nodesfile]}}
+    end
+    
+    step :oar, :order => 60, :overwrite => true do
+      Script.logger.debug "Walltime : #{oarstat["walltime"]}"
+      Script.logger.debug "Assigned resources : #{oarstat["assigned_resources"].inspect}"
+    end
+
+### Generated logs
+
+    root@fqualif.qualif.grid5000.fr(kvm|paramount-srv):~# cat /var/log/oar/404-epilogue-pmorillo.log 
+    # Logfile created on Mon Mar 26 11:23:09 +0200 2012 by logger.rb/22285
+    I, [2012-03-26T11:23:09.532239 #30551]  INFO -- : [begin]
+    I, [2012-03-26T11:23:09.532818 #30551]  INFO -- : [step_overwrites] replace {:proc=>#<Proc:0x00007f41ab7a27b0@/etc/oar/epilogue.d/kadeploy.rb:5>, :continue=>true, :name=>:kadeploy, :order=>40} by {:proc=>#<Proc:0x00007f41ab7a1fe0@/etc/oar/epilogue.d/test.rb:1>, :continue=>true, :name=>:kadeploy, :overwrite=>true, :order=>40}
+    I, [2012-03-26T11:23:09.533040 #30551]  INFO -- : [step_already_defined] skip {:proc=>#<Proc:0x00007f41ab7a0ac8@/etc/oar/epilogue.d/oar.rb:5>, :continue=>true, :name=>:oar, :order=>60}
+    I, [2012-03-26T11:23:09.533102 #30551]  INFO -- : [begin_step]kadeploy
+    I, [2012-03-26T11:23:09.533178 #30551]  INFO -- : [command] /usr/sbin/karights3 -d -u pmorillo -p /dev/sda3 -f /var/lib/oar/404 2>&1
+    D, [2012-03-26T11:23:10.717976 #30551] DEBUG -- : [result]
+    
+    D, [2012-03-26T11:23:10.718377 #30551] DEBUG -- : [command_success]
+    I, [2012-03-26T11:23:10.718456 #30551]  INFO -- : [end_step]kadeploy
+    I, [2012-03-26T11:23:10.718563 #30551]  INFO -- : [begin_step]oar
+    D, [2012-03-26T11:23:11.008116 #30551] DEBUG -- : Walltime : 7200
+    D, [2012-03-26T11:23:11.008433 #30551] DEBUG -- : Assigned resources : ["5", "6", "7", "8"]
+    I, [2012-03-26T11:23:11.008504 #30551]  INFO -- : [end_step]oar
+    I, [2012-03-26T11:23:11.008596 #30551]  INFO -- : [end]
+    I, [2012-03-26T11:23:11.008896 #30551]  INFO -- : [stats]{"duration":1.476776,"steps":[{"duration":1.185375,"name":"kadeploy","order":40},{"duration":0.289969,"name":"oar","order":60}],"job":{"user":"pmorillo","host_count":1,"nodesfile":"/var/lib/oar/404","id":"404","resources_count":4}}
 
