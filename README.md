@@ -54,7 +54,11 @@ Full description of a job. Executes oarstat command to get informations
 about job, only one time per script and only if
 necessary. This method return a Hash.
 
-## Steps
+    oarstat["initial_request"]
+    oarstat["walltime"]
+    ...
+
+## Step definition
 
 ### Usage
 
@@ -86,6 +90,15 @@ exception is raised.
     step :kadeploy, :order => 20 do
       # code
     end
+
+## Disable steps
+
+Steps can be disabled like this :
+
+    Script.disable_steps [:kadeploy, :kavlan, :oar]
+    Script.disable_steps :storage
+
+__Note__ : See _/etc/oar/epilogue.d/storage.rb_ example.
 
 ## System calls with logging
 
@@ -283,15 +296,16 @@ This epilogue gerenerate the log above.
     # Module  : kadeployg5k
     # File    : puppet:///modules/storage5k/oar/epilogue_storage.rb
     #
+
+    if oarstat["initial_request"].match "chunks"
+      Script.disable_steps [:oar, :kadeploy, :kavlan]
+    else
+      Script.disable_steps :storage
+    end
     
     step :storage, :order => 80 do
-      if oarstat["initial_request"].match "chunks"
-        Script.logger.info "Storage resources requested"
-        sh %{/usr/bin/storage5k -a job-remove -u #{job[:user]} -j #{job[:id]}}
-        sh %{/usr/bin/storage5k -a umount -j #{job[:id]}}
-      else
-        Script.logger.info "No storage resources requested"
-      end
+      sh %{/usr/bin/storage5k -a job-remove -u #{job[:user]} -j #{job[:id]}}
+      sh %{/usr/bin/storage5k -a umount -j #{job[:id]}}
     end
 
 ## overwrite example and _oarstat_ usage
