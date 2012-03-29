@@ -16,6 +16,7 @@ class OAR::Scripting::Script
     @@logger.info "[begin]"
     @@stats = { "job" => @@job, "steps" => [] }
     @@steps = []
+    @@disabled_steps = []
   end # def:: initialize
 
   def self.load_steps
@@ -85,6 +86,18 @@ class OAR::Scripting::Script
   def self.stats
     @@stats
   end # def:: self.stats
+
+  def self.disabled_steps
+    @@disabled_steps
+  end # def:: self.disabled_steps
+
+  def self.disable_steps(steps)
+    steps = [steps] unless steps.class == Array
+    @@disabled_steps += steps
+    steps2disable = Script.steps.select { |step| steps.include? step[:name] }
+    Script.logger.info "[disable_loaded_steps]#{steps2disable.inspect}"
+    @@steps -= steps2disable
+  end # def:: self.disable_steps(steps)
 
 end # class:: OAR::Scripting::Script
 

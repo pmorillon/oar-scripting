@@ -28,6 +28,10 @@ module OAR
     def step(name, *args, &block)
       step = Hash.new
       raise(ArgumentError, "Step name must be a symbol") unless name.kind_of?(Symbol)
+      if Script.disabled_steps.include? name
+        Script.logger.info "[disable_step]#{name}"
+        return
+      end
       step = args.first unless args.first.nil?
       step[:name] = name
       step[:order] ||= OAR::Scripting::Config[:default_step_order]
