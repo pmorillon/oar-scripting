@@ -161,6 +161,7 @@ Example : file _/var/log/oar/420075-epilogue-pmorillo.log_
     # Logfile created on Fri Mar 30 09:29:49 +0200 2012 by logger.rb/22285
     I, [2012-03-30T09:29:49.998917 #1246]  INFO -- : [begin]
     I, [2012-03-30T09:29:50.420609 #1246]  INFO -- : [disable_step]bonfire
+    I, [2012-03-30T09:29:50.420651 #1246]  INFO -- : [disable_step]storage
     I, [2012-03-30T09:29:50.420683 #1246]  INFO -- : [begin_step]kavlan
     I, [2012-03-30T09:29:50.420776 #1246]  INFO -- : [command] /usr/bin/kavlan -V -j 420075 -q 2>&1
     D, [2012-03-30T09:29:50.962787 #1246] DEBUG -- : [result]
@@ -275,10 +276,11 @@ This epilogue gerenerate the log above.
     
     Script.load_steps
     
+    Script.disable_steps :bonfire unless job[:user] == "bonfire"
+
     step :bonfire, :order => 30 do
-      if job[:user] == "bonfire"
-        sh %{kavlan -s -i DEFAULT -f #{job[:nodesfile]}}
-      end
+      Script.logger.info "Bonfire's job, need to set all nodes in the default Vlan"
+      sh %{kavlan -s -i DEFAULT -f #{job[:nodesfile]}}
     end
     
     Script.execute
@@ -288,6 +290,10 @@ This epilogue gerenerate the log above.
     # MANAGED BY PUPPET
     # Module  : kavlang5k
     # File    : puppet:///modules/kavlang5k/commons/oar/epilogue_kavlan.rb
+    
+    unless oarstat["initial_request"].match "kavlan"
+      Script.disable_steps :kavlan
+    end
     
     step :kavlan, :order => 20 do
       KAVLAN_IDS = sh(%{/usr/bin/kavlan -V -j #{job[:id]} -q}, :return => true, :stderr => false).split("\n")
