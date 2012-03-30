@@ -156,54 +156,93 @@ using format _**jobid**-**epilogue|prologue**-**user**.log_
 
     Config[:log_path] = "/var/lib/oar/scripting/logs" # to change the log path
 
-Example : file _/var/log/oar/419562-epilogue-pmorillo.log_
+Example : file _/var/log/oar/420075-epilogue-pmorillo.log_
     
-    # Logfile created on Tue Mar 20 15:23:16 +0100 2012 by logger.rb/22285
-    I, [2012-03-20T15:23:16.744812 #13719]  INFO -- : [begin]
-    I, [2012-03-20T15:23:16.745331 #13719]  INFO -- : [begin_step]kavlan
-    I, [2012-03-20T15:23:16.745411 #13719]  INFO -- : [command] /usr/bin/kavlan -V -j 419562 -q 2>/dev/null
-    D, [2012-03-20T15:23:17.291268 #13719] DEBUG -- : [result]
-    16
-    D, [2012-03-20T15:23:17.291518 #13719] DEBUG -- : [command_success]
-    I, [2012-03-20T15:23:17.291671 #13719]  INFO -- : [command] /usr/sbin/kavlan_rights -u pmorillo -d -i 16 2>&1
-    D, [2012-03-20T15:23:17.617290 #13719] DEBUG -- : [result]
-    vlan 16: ok
-    D, [2012-03-20T15:23:17.617522 #13719] DEBUG -- : [command_success]
-    I, [2012-03-20T15:23:17.617610 #13719]  INFO -- : [end_step]kavlan
-    I, [2012-03-20T15:23:17.617703 #13719]  INFO -- : [begin_step]bonfire
-    I, [2012-03-20T15:23:17.617768 #13719]  INFO -- : [end_step]bonfire
-    I, [2012-03-20T15:23:17.617830 #13719]  INFO -- : [begin_step]kadeploy
-    I, [2012-03-20T15:23:17.617924 #13719]  INFO -- : [command] /usr/sbin/karights3 -d -u pmorillo -p /dev/sda3 -f /var/lib/oar/419562 2>&1
-    D, [2012-03-20T15:23:18.759796 #13719] DEBUG -- : [result]
+    # Logfile created on Fri Mar 30 09:29:49 +0200 2012 by logger.rb/22285
+    I, [2012-03-30T09:29:49.998917 #1246]  INFO -- : [begin]
+    I, [2012-03-30T09:29:50.420609 #1246]  INFO -- : [disable_step]bonfire
+    I, [2012-03-30T09:29:50.420683 #1246]  INFO -- : [begin_step]kavlan
+    I, [2012-03-30T09:29:50.420776 #1246]  INFO -- : [command] /usr/bin/kavlan -V -j 420075 -q 2>&1
+    D, [2012-03-30T09:29:50.962787 #1246] DEBUG -- : [result]
+    4
+    D, [2012-03-30T09:29:50.963022 #1246] DEBUG -- : [command_success]
+    I, [2012-03-30T09:29:50.963177 #1246]  INFO -- : [command] /usr/sbin/kavlan_rights -u pmorillo -d -i 4 2>&1
+    D, [2012-03-30T09:29:51.284595 #1246] DEBUG -- : [result]
+    vlan 4: ok
+    D, [2012-03-30T09:29:51.284838 #1246] DEBUG -- : [command_success]
+    I, [2012-03-30T09:29:51.284943 #1246]  INFO -- : [end_step]kavlan
+    I, [2012-03-30T09:29:51.285020 #1246]  INFO -- : [begin_step]kadeploy
+    I, [2012-03-30T09:29:51.285135 #1246]  INFO -- : [command] /usr/sbin/karights3 -d -u pmorillo -p /dev/sda3 -f /var/lib/oar/420075 2>&1
+    D, [2012-03-30T09:29:52.448497 #1246] DEBUG -- : [result]
     
-    D, [2012-03-20T15:23:18.760018 #13719] DEBUG -- : [command_success]
-    I, [2012-03-20T15:23:18.760130 #13719]  INFO -- : [command] /usr/bin/kareboot3 -l very_hard --no-wait -p 2 -r env_recorded -e squeeze-x64-prod -u deploy -f /var/lib/oar/419562 2>&1
-    D, [2012-03-20T15:23:29.235713 #13719] DEBUG -- : [result]
-    --- switch_pxe (paramount cluster)
-      >>>  paramount-23.rennes.grid5000.fr
-    --- reboot (paramount cluster)
-      >>>  paramount-23.rennes.grid5000.fr
-      *** A very_hard reboot will be performed on the nodes paramount-23.rennes.grid5000.fr
-    --- set_vlan (paramount cluster)
-      >>>  paramount-23.rennes.grid5000.fr
+    D, [2012-03-30T09:29:52.448741 #1246] DEBUG -- : [command_success]
+    I, [2012-03-30T09:29:52.448846 #1246]  INFO -- : [command] /usr/bin/kareboot3 -l hard --no-wait -p 2 -r env_recorded -e squeeze-x64-prod -u deploy -f /var/lib/oar/420075 2>&1
+    D, [2012-03-30T09:30:06.969389 #1246] DEBUG -- : [result]
+    --- switch_pxe (parapluie cluster)
+      >>>  parapluie-38.rennes.grid5000.fr
+    --- reboot (parapluie cluster)
+      >>>  parapluie-38.rennes.grid5000.fr
+      *** A hard reboot will be performed on the nodes parapluie-38.rennes.grid5000.fr
+    --- set_vlan (parapluie cluster)
+      >>>  parapluie-38.rennes.grid5000.fr
       *** Bypass the VLAN setting
-    D, [2012-03-20T15:23:29.235938 #13719] DEBUG -- : [command_success]
-    I, [2012-03-20T15:23:29.236019 #13719]  INFO -- : [end_step]kadeploy
-    I, [2012-03-20T15:23:29.236127 #13719]  INFO -- : [begin_step]oar
-    I, [2012-03-20T15:23:29.236226 #13719]  INFO -- : [command] /usr/sbin/oarnodesetting -n -s Absent -p available_upto=0 --sql "resource_id IN (select assigned_resources.resource_id from jobs,assigned_resources,resources where assigned_resource_index = 'CURRENT' AND jobs.state = 'Running' AND jobs.job_id = 419562 and moldable_job_id = jobs.assigned_moldable_job AND (resources.resource_id = assigned_resources.resource_id AND resources.type='default'))" 2>&1
-    D, [2012-03-20T15:23:29.971694 #13719] DEBUG -- : [result]
-    828 --> Absent
-    829 --> Absent
-    830 --> Absent
-    831 --> Absent
+    D, [2012-03-30T09:30:06.969635 #1246] DEBUG -- : [command_success]
+    I, [2012-03-30T09:30:06.969723 #1246]  INFO -- : [end_step]kadeploy
+    I, [2012-03-30T09:30:06.969832 #1246]  INFO -- : [begin_step]oar
+    I, [2012-03-30T09:30:06.969938 #1246]  INFO -- : [command] /usr/sbin/oarnodesetting -n -s Absent -p available_upto=0 --sql "resource_id IN (select assigned_resources.resource_id from jobs,assigned_resources,resources where assigned_resource_index = 'CURRENT' AND jobs.state = 'Running' AND jobs.job_id = 420075 and moldable_job_id = jobs.assigned_moldable_job AND (resources.resource_id = assigned_resources.resource_id AND resources.type='default'))" 2>&1
+    D, [2012-03-30T09:30:10.617586 #1246] DEBUG -- : [result]
+    3804 --> Absent
+    3805 --> Absent
+    3806 --> Absent
+    3807 --> Absent
+    3808 --> Absent
+    3809 --> Absent
+    3810 --> Absent
+    3811 --> Absent
+    3812 --> Absent
+    3813 --> Absent
+    3814 --> Absent
+    3815 --> Absent
+    3816 --> Absent
+    3817 --> Absent
+    3818 --> Absent
+    3819 --> Absent
+    3820 --> Absent
+    3821 --> Absent
+    3822 --> Absent
+    3823 --> Absent
+    3824 --> Absent
+    3825 --> Absent
+    3826 --> Absent
+    3827 --> Absent
     Update property available_upto with value 0 ...DONE
     Update property available_upto with value 0 ...DONE
     Update property available_upto with value 0 ...DONE
     Update property available_upto with value 0 ...DONE
-    D, [2012-03-20T15:23:29.971923 #13719] DEBUG -- : [command_success]
-    I, [2012-03-20T15:23:29.972006 #13719]  INFO -- : [end_step]oar
-    I, [2012-03-20T15:23:29.972110 #13719]  INFO -- : [end]
-    I, [2012-03-20T15:23:29.972314 #13719]  INFO -- : [stats]{"duration":13.227624,"steps":[{"duration":0.872287,"name":"kavlan","order":20},{"duration":7.4e-05,"name":"bonfire","order":30},{"duration":11.618219,"name":"kadeploy","order":40},{"duration":0.735891,"name":"oar","order":60}],"job":{"user":"pmorillo","resources_count":4,"host_count":1,"nodesfile":"/var/lib/oar/419562","id":"419562"}}
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    Update property available_upto with value 0 ...DONE
+    D, [2012-03-30T09:30:10.617851 #1246] DEBUG -- : [command_success]
+    I, [2012-03-30T09:30:10.617936 #1246]  INFO -- : [end_step]oar
+    I, [2012-03-30T09:30:10.618015 #1246]  INFO -- : [end]
+    I, [2012-03-30T09:30:10.618210 #1246]  INFO -- : [stats]{"duration":20.619485,"steps":[{"duration":0.864266,"name":"kavlan","order":20},{"duration":15.684741,"name":"kadeploy","order":40},{"duration":3.648107,"name":"oar","order":60}],"job":{"nodesfile":"/var/lib/oar/420075","user":"pmorillo","resources_count":24,"host_count":1,"id":"420075"}}
 
 
 
