@@ -1,7 +1,10 @@
 PATH
   remote: .
   specs:
-    oar-scripting (0.0.1)
+    oar-scripting (1.0.3)
+      json (>= 1.6.5)
+      mixlib-cli (>= 1.1.0)
+      rubyvis (>= 0.5.1)
 
 GEM
   remote: http://rubygems.org/
@@ -10,13 +13,12 @@ GEM
     mixlib-cli (1.2.2)
     rake (0.8.7)
     rubyvis (0.5.1)
+    yard (0.8.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  json
-  mixlib-cli (>= 1.1.0)
   oar-scripting!
   rake (= 0.8.7)
-  rubyvis (>= 0.5.1)
+  yard (~> 0.8.2.1)

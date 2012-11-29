@@ -15,6 +15,13 @@ Gem::Specification.new do |s|
   s.email             = "pascal.morillon@irisa.fr"
   s.homepage          = "https://github.com/pmorillon/oar-scripting"
 
+  s.add_dependency "mixlib-cli", ">=1.1.0"
+  s.add_dependency "rubyvis", ">=0.5.1"
+  s.add_dependency "json", ">=1.6.5"
+
+  s.add_development_dependency "rake", "0.8.7"
+  s.add_development_dependency "yard", "~>0.8.2.1"
+
   s.bindir            = "bin"
   s.executables       = %w( oar-scripting-graph )
   s.require_path      = ["lib"]
