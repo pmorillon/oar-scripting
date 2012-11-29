@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    oar-scripting (1.0.3)
+    oar-scripting (1.0.4)
       json (>= 1.6.5)
       mixlib-cli (>= 1.1.0)
       rubyvis (>= 0.5.1)
