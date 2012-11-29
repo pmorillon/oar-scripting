@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description       = s.summary
   s.author            = "Pascal Morillon"
   s.email             = "pascal.morillon@irisa.fr"
-  s.homepage          = "https://helpdesk.grid5000.fr/redmine/projects/oar-scripting"
+  s.homepage          = "https://github.com/pmorillon/oar-scripting"
 
   s.bindir            = "bin"
   s.executables       = %w( oar-scripting-graph )
