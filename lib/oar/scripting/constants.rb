@@ -5,7 +5,7 @@
 module OAR
   module Scripting
     GEM       = "oar-scripting"
-    VERSION   = "1.0.5"
+    VERSION   = "1.0.6"
   end # module:: Scripting
 end # module:: OAR
 
