@@ -59,7 +59,7 @@ class OAR::Scripting::Script
   end # def:: self.steps
 
   def self.oarstat
-    @@oarstat ||= JSON.parse(%x[oarstat -f -j @@job[:id] -J])[@@job[:id]]
+    @@oarstat ||= JSON.parse(%x[oarstat -f -j #{@@job[:id]} -J])[@@job[:id]]
   end # def:: self.oarstat
 
   def self.execute
