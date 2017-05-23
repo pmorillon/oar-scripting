@@ -50,7 +50,7 @@ class) :
 
 ### oarstat method
 
-Full description of a job. Executes `oarstat -Y` command to get informations
+Full description of a job. Executes `oarstat -J` command to get informations
 about job, only one time per script and only if
 necessary. This method return a Hash.
 
