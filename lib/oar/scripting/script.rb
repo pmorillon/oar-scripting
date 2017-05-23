@@ -29,16 +29,23 @@ class OAR::Scripting::Script
   end # def:: self.load_scripts
 
   def self.getargs
-    job = { :id         => ARGV[0],
-            :user       => ARGV[1],
-            :nodesfile  => ARGV[2] }
+    job = { :id => ARGV[0] }
+    unless ARGV[1].empty? or ARGV[2].empty?
+      job[:user] = ARGV[1]
+      job[:nodesfile] = ARGV[2]
+    else
+      job[:user] = self.oarstat[:job_user]
+      job[:nodesfile] = "/var/lib/oar/#{job[:id]}"
+    end
     begin
       File.open(job[:nodesfile]).each { |line| @@resources << line.chomp }
     rescue
-      # let @@resources empty
+      # get data from oarstat
+      job[:resources_count] = self.oarstat[:assigned_resources].length
+      job[:host_count] = self.oarstat[:assigned_network_address].length
     end
-    job[:resources_count] = @@resources.length
-    job[:host_count] = @@resources.uniq.length
+    job[:resources_count] ||= @@resources.length
+    job[:host_count] ||= @@resources.uniq.length
     job
   end # def:: getargs
 
