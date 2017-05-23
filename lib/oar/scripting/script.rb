@@ -35,7 +35,7 @@ class OAR::Scripting::Script
       job[:nodesfile] = ARGV[2]
     else
       job[:user] = self.oarstat[:job_user]
-      job[:nodesfile] = "/var/lib/oar/#{job[:id]}"
+      job[:nodesfile] = ""
     end
     begin
       File.open(job[:nodesfile]).each { |line| @@resources << line.chomp }
