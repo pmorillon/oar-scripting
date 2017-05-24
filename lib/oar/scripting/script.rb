@@ -11,6 +11,13 @@ class OAR::Scripting::Script
     @@resources = []
     @@start_at = Time.new
     @@job = getargs
+    if job[:uncomplete]
+      # get missing data from oarstat
+      job[:user] = self.oarstat['job_user']
+      job[:resources_count] = self.oarstat['assigned_resources'].length
+      job[:host_count] = self.oarstat['assigned_network_address'].length
+      job.delete(:uncomplete)
+    end
     @@type ||= type
     @@logger ||= Logger.new(File.join(OAR::Scripting::Config[:log_path], "#{@@job[:id]}-#{@@type.to_s}-#{@@job[:user]}.log"))
     @@logger.info "[begin]"
@@ -29,13 +36,17 @@ class OAR::Scripting::Script
   end # def:: self.load_scripts
 
   def self.getargs
-    job = { :id         => ARGV[0],
-            :user       => ARGV[1],
-            :nodesfile  => ARGV[2] }
+    job = { :id => ARGV[0] }
+    unless ARGV.length < 3
+      job[:user] = ARGV[1]
+      job[:nodesfile] = ARGV[2]
+    else
+      job[:uncomplete] = true
+    end
     begin
       File.open(job[:nodesfile]).each { |line| @@resources << line.chomp }
     rescue
-      # let @@resources empty
+      job[:uncomplete] = true
     end
     job[:resources_count] = @@resources.length
     job[:host_count] = @@resources.uniq.length
